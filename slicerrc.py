@@ -197,17 +197,20 @@ def createCustomLayouts():
 # init
 
 def init():
+    # no help text
+    setModuleHelpSectionVisible( False )
+    infoSlicerRC("Module help text hidden. Enable with 'setModuleHelpSectionVisible( True )'")
+    # no dataprobe 
+    setDataProbeVisible( False )
+    infoSlicerRC("Data probe hidden. Enable with 'setDataProbeVisible( True )'")
+    # no logo
+    setApplicationLogoVisible( False )
     # no interpolation
     setVolumeInterpolation(False)
-    infoSlicerRC("Volume interpolation off. enable with 'setVolumeInterpolation( True )")
+    infoSlicerRC("Volume interpolation off. Enable with 'setVolumeInterpolation( True )")
     # default model format
     setModelStorageFormat( 'stl' )
     infoSlicerRC("Default model storage format: .stl")
-    # no dataprobe 
-    setDataProbeVisible( False )
-    infoSlicerRC("Data probe hidden. enable with 'setDataProbeVisible( True )'")
-    # no logo
-    setApplicationLogoVisible( False )
     # create and set custom layout
     createCustomLayouts()
     infoSlicerRC("Custom layout created.")
