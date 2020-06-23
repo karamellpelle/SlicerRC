@@ -53,7 +53,7 @@ def createToggle3D():
     layoutPrev = lm.layout 
     layout3D = slicer.vtkMRMLLayoutNode.SlicerLayoutOneUp3DView
     def toggle3D():
-        layoutPrev # FIXME: global? no, according to https://stackoverflow.com/a/279586
+        global layoutPrev 
         if lm.layout == layout3D:
             lm.setLayout( layoutPrev )
         else:
@@ -134,7 +134,7 @@ LAYOUTID_MANUALSEGMENTATION_3D = 440
 LAYOUTID_MANUALSEGMENTATION    = 442
 
 
-# switch layout
+# switch layout. 
 def setLayout(idx):
     layoutManager = slicer.app.layoutManager()
     layoutManager.setLayout( idx )
@@ -148,15 +148,15 @@ actionSegmentation   = None
 
 # callback for action
 def triggerLayoutManualSegmentation():
-    # set layout
-    setLayout( LAYOUTID_MANUALSEGMENTATION )
+    # (layout changed by 'LayoutMenu' by using the QAction's QVariant)
     # TODO: turn off 3D render
+    pass
 
 # callback for action
 def triggerLayoutManualSegmentation3D():
-    # set layout
-    setLayout( LAYOUTID_MANUALSEGMENTATION_3D )
+    # (layout is changed by 'LayoutMenu' by using the QAction's QVariant)
     # TODO: turn on 3D render
+    pass
 
 # callback for shortcut
 def toggleLayoutManualSegmentation():
@@ -176,9 +176,11 @@ def createCustomLayouts():
     global actionSegmentation3D
     global actionSegmentation
     actionSegmentation3D = mainWindow().findChild('QMenu', 'LayoutMenu').addAction( "Segmentation+3D" ) # TODO: create Icon: #.setIcon(qt.QIcon(':Icons/Go.png'))
+    actionSegmentation3D.setData( LAYOUTID_MANUALSEGMENTATION_3D );
     actionSegmentation3D.setToolTip("Manual Segmentation")
     actionSegmentation3D.connect('triggered()', lambda: triggerLayoutManualSegmentation3D() )
     actionSegmentation = mainWindow().findChild('QMenu', 'LayoutMenu').addAction( "Segmentation" ) # TODO: create Icon: #.setIcon(qt.QIcon(':Icons/Go.png'))
+    actionSegmentation.setData( LAYOUTID_MANUALSEGMENTATION );
     actionSegmentation.setToolTip("Manual Segmentation, fullscreen")
     actionSegmentation.connect('triggered()', lambda: triggerLayoutManualSegmentation() )
     # create toggle shortcut
@@ -186,7 +188,7 @@ def createCustomLayouts():
     shortcutToggleSeg.setKey( qt.QKeySequence('g') )
     shortcutToggleSeg.connect( 'activated()', lambda: toggleLayoutManualSegmentation() )
     # set custom layout right now. this makes sure volumes are loaded into our custom Slice Views
-    #actionSegmentation3D.triggered()
+    actionSegmentation3D.triggered()
 
 
 
@@ -208,9 +210,9 @@ def init():
     setApplicationLogoVisible( False )
     # create and set custom layout
     createCustomLayouts()
+    infoSlicerRC("Custom layout created.")
     # create toggle 3D fullscreen 
     createToggle3D()
-    infoSlicerRC("Custom layout created.")
     # set default module: Data
     selectModule("Data")
     infoSlicerRC("Switched to module 'Data'")
