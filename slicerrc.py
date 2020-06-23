@@ -87,17 +87,17 @@ LAYOUTXML_MANUALSEGMENTATION_3D = """
   <layout type="vertical">
 
    <item>
-    <view class="vtkMRMLSliceNode" singletontag="ManualSegmentation-">
+    <view class="vtkMRMLSliceNode" singletontag="Segmentation-">
      <property name="orientation" action="default">Axial</property>
-     <property name="viewlabel" action="default">ManualSegmentation-</property>
-     <property name="viewcolor" action="default">#FF99E6</property>
+     <property name="viewlabel" action="default">Segmentation-</property>
+     <property name="viewcolor" action="default">#FBB0E9</property>
     </view>
    </item>
 
    <item>
-    <view class="vtkMRMLSliceNode" singletontag="ManualSegmentation">
+    <view class="vtkMRMLSliceNode" singletontag="Segmentation">
      <property name="orientation" action="default">Axial</property>
-     <property name="viewlabel" action="default">ManualSegmentation</property>
+     <property name="viewlabel" action="default">Segmentation</property>
      <property name="viewcolor" action="default">#CC0099</property>
     </view>
    </item>
@@ -111,17 +111,17 @@ LAYOUTXML_MANUALSEGMENTATION = """
 <layout type="horizontal">
 
    <item>
-    <view class="vtkMRMLSliceNode" singletontag="ManualSegmentation-">
+    <view class="vtkMRMLSliceNode" singletontag="Segmentation-">
      <property name="orientation" action="default">Axial</property>
-     <property name="viewlabel" action="default">ManualSegmentation-</property>
-     <property name="viewcolor" action="default">#FF99E6</property>
+     <property name="viewlabel" action="default">Segmentation-</property>
+     <property name="viewcolor" action="default">#FBB0E9</property>
     </view>
    </item>
 
    <item>
-    <view class="vtkMRMLSliceNode" singletontag="ManualSegmentation">
+    <view class="vtkMRMLSliceNode" singletontag="Segmentation">
      <property name="orientation" action="default">Axial</property>
-     <property name="viewlabel" action="default">ManualSegmentation</property>
+     <property name="viewlabel" action="default">Segmentation</property>
      <property name="viewcolor" action="default">#CC0099</property>
     </view>
    </item>
