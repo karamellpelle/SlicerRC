@@ -166,6 +166,22 @@ def toggleLayoutSegmentation():
     else: 
         actionSegmentation3D.triggered()
 
+# custom QIcon from pixmap. create hex string with 'hexdump -e '/1 "%02X"' -v file.png'
+def createIconSegmentation3D():
+    pxm = qt.QPixmap()
+    if pxm.loadFromData( qt.QByteArray.fromHex( '89504E470D0A1A0A0000000D4948445200000015000000150806000000A917A59600000006624B474400FF00FF00FFA0BDA793000000097048597300000B1300000B1301009A9C18000001094944415438CBB595DF6DC2301087BF33291B94ACD14A658F8091DA055C662A5EA03CE4CF1C158BA423F401F35012A52186D80DBF8758F29D3FDD9DEF1C11C11120E740E4BA4F02F075A801504A00011CCA73F2F9E9919FB2F602E7ABF4173A9BA976533ADF58253188872CF5DA44CED050E579EEB56D361AC51DD446FA6E56379D77B60C8302381CD656174EC6644840E5FF40ADAD3026BB70B2B61A95C920B40BE946195DD31069ADA7871EF8F0DA96B21D86C6A4EC8DD4986CD4EDBFB0F54F541F2AC8E02DF7DBA9288AF38BE590DEC3A3F59AA4D91BDBD80D0CE0ED5BF3B9C8DBF55FB32F22BCD6EB16DCD764B3DF8547439B7427EBD3A604FBB418B62915F68F3A1E41DDC8EF041FAC44375EE254D80000000049454E44AE426082' ) ):
+        return qt.QIcon( pxm )
+    else:
+        raise ValueError
+
+# custom QIcon from pixmap. create hex string with 'hexdump -e '/1 "%02X"' -v file.png'
+def createIconSegmentation():
+    pxm = qt.QPixmap()
+    if pxm.loadFromData( qt.QByteArray.fromHex( '89504E470D0A1A0A0000000D4948445200000015000000150806000000A917A59600000006624B474400FF00FF00FFA0BDA793000000097048597300000B1300000B1301009A9C18000000A74944415438CBED94C10DC2300C45DF8FCA0A30097B20520936602636E0D0884558A48CC0A1E64290406AAD047AAB2FB97C3D7FDBB1256114841948D39A06E071ED5DD86AB7E1C6F9451ED76D75223043683A6F0550D048D075C915C71849C9D7B56D9CA7FC055A1EC77B7CBF92D0D736845F8000877E8F997D6CDC5FCACF09F23F2D865ED6C90557391D03CF32FD3CB0C63B63256ECDACAEA7CB46B983520865477A182038569EFBE62A8F2AF4B91D0000000049454E44AE426082' ) ):
+        return qt.QIcon( pxm )
+    else:
+        raise ValueError
+
 
 # create our custom layouts, add actions in layout menu, create shortcut
 def createCustomLayouts():
@@ -175,11 +191,13 @@ def createCustomLayouts():
     # create menu entries
     global actionSegmentation3D
     global actionSegmentation
-    actionSegmentation3D = mainWindow().findChild('QMenu', 'LayoutMenu').addAction( "Segmentation+3D" ) # TODO: create Icon: #.setIcon(qt.QIcon(':Icons/Go.png'))
-    actionSegmentation3D.setData( LAYOUTID_SEGMENTATION_3D );
+    actionSegmentation3D = mainWindow().findChild('QMenu', 'LayoutMenu').addAction( "Segmentation+3D" ) 
+    actionSegmentation3D.setIcon( createIconSegmentation3D() )
+    actionSegmentation3D.setData( LAYOUTID_SEGMENTATION_3D )
     actionSegmentation3D.setToolTip(" Segmentation")
     actionSegmentation3D.connect('triggered()', lambda: triggerLayoutSegmentation3D() )
-    actionSegmentation = mainWindow().findChild('QMenu', 'LayoutMenu').addAction( "Segmentation" ) # TODO: create Icon: #.setIcon(qt.QIcon(':Icons/Go.png'))
+    actionSegmentation = mainWindow().findChild('QMenu', 'LayoutMenu').addAction( "Segmentation" )
+    actionSegmentation.setIcon( createIconSegmentation() )
     actionSegmentation.setData( LAYOUTID_SEGMENTATION );
     actionSegmentation.setToolTip(" Segmentation, fullscreen")
     actionSegmentation.connect('triggered()', lambda: triggerLayoutSegmentation() )
