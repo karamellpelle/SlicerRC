@@ -75,8 +75,8 @@ def createToggle3D():
 # custom layouts
 
 
-# 3D view + manual segmentation views
-LAYOUTXML_MANUALSEGMENTATION_3D = """
+# 3D view +  segmentation views
+LAYOUTXML_SEGMENTATION_3D = """
 <layout type="horizontal" split="true" >
  <item splitSize="600">
   <view class="vtkMRMLViewNode" singletontag="1" verticalStretch="0">
@@ -106,8 +106,8 @@ LAYOUTXML_MANUALSEGMENTATION_3D = """
 </layout>
 """
 
-# manual segmentation views, fullscreen
-LAYOUTXML_MANUALSEGMENTATION = """
+#  segmentation views, fullscreen
+LAYOUTXML_SEGMENTATION = """
 <layout type="horizontal">
 
    <item>
@@ -130,8 +130,8 @@ LAYOUTXML_MANUALSEGMENTATION = """
 """
 
 # out-of-the-blue values
-LAYOUTID_MANUALSEGMENTATION_3D = 440
-LAYOUTID_MANUALSEGMENTATION    = 442
+LAYOUTID_SEGMENTATION_3D = 440
+LAYOUTID_SEGMENTATION    = 442
 
 
 # switch layout. 
@@ -147,21 +147,21 @@ actionSegmentation   = None
 
 
 # callback for action
-def triggerLayoutManualSegmentation():
+def triggerLayoutSegmentation():
     # (layout changed by 'LayoutMenu' by using the QAction's QVariant)
     # TODO: turn off 3D render
     pass
 
 # callback for action
-def triggerLayoutManualSegmentation3D():
+def triggerLayoutSegmentation3D():
     # (layout is changed by 'LayoutMenu' by using the QAction's QVariant)
     # TODO: turn on 3D render
     pass
 
 # callback for shortcut
-def toggleLayoutManualSegmentation():
+def toggleLayoutSegmentation():
     lm = slicer.app.layoutManager()
-    if lm.layout == LAYOUTID_MANUALSEGMENTATION_3D:
+    if lm.layout == LAYOUTID_SEGMENTATION_3D:
         actionSegmentation.triggered()
     else: 
         actionSegmentation3D.triggered()
@@ -170,23 +170,23 @@ def toggleLayoutManualSegmentation():
 # create our custom layouts, add actions in layout menu, create shortcut
 def createCustomLayouts():
     # create layouts
-    slicer.app.layoutManager().layoutLogic().GetLayoutNode().AddLayoutDescription( LAYOUTID_MANUALSEGMENTATION_3D, LAYOUTXML_MANUALSEGMENTATION_3D )
-    slicer.app.layoutManager().layoutLogic().GetLayoutNode().AddLayoutDescription( LAYOUTID_MANUALSEGMENTATION, LAYOUTXML_MANUALSEGMENTATION )
+    slicer.app.layoutManager().layoutLogic().GetLayoutNode().AddLayoutDescription( LAYOUTID_SEGMENTATION_3D, LAYOUTXML_SEGMENTATION_3D )
+    slicer.app.layoutManager().layoutLogic().GetLayoutNode().AddLayoutDescription( LAYOUTID_SEGMENTATION, LAYOUTXML_SEGMENTATION )
     # create menu entries
     global actionSegmentation3D
     global actionSegmentation
     actionSegmentation3D = mainWindow().findChild('QMenu', 'LayoutMenu').addAction( "Segmentation+3D" ) # TODO: create Icon: #.setIcon(qt.QIcon(':Icons/Go.png'))
-    actionSegmentation3D.setData( LAYOUTID_MANUALSEGMENTATION_3D );
-    actionSegmentation3D.setToolTip("Manual Segmentation")
-    actionSegmentation3D.connect('triggered()', lambda: triggerLayoutManualSegmentation3D() )
+    actionSegmentation3D.setData( LAYOUTID_SEGMENTATION_3D );
+    actionSegmentation3D.setToolTip(" Segmentation")
+    actionSegmentation3D.connect('triggered()', lambda: triggerLayoutSegmentation3D() )
     actionSegmentation = mainWindow().findChild('QMenu', 'LayoutMenu').addAction( "Segmentation" ) # TODO: create Icon: #.setIcon(qt.QIcon(':Icons/Go.png'))
-    actionSegmentation.setData( LAYOUTID_MANUALSEGMENTATION );
-    actionSegmentation.setToolTip("Manual Segmentation, fullscreen")
-    actionSegmentation.connect('triggered()', lambda: triggerLayoutManualSegmentation() )
+    actionSegmentation.setData( LAYOUTID_SEGMENTATION );
+    actionSegmentation.setToolTip(" Segmentation, fullscreen")
+    actionSegmentation.connect('triggered()', lambda: triggerLayoutSegmentation() )
     # create toggle shortcut
     shortcutToggleSeg = qt.QShortcut( mainWindow() )
     shortcutToggleSeg.setKey( qt.QKeySequence('g') )
-    shortcutToggleSeg.connect( 'activated()', lambda: toggleLayoutManualSegmentation() )
+    shortcutToggleSeg.connect( 'activated()', lambda: toggleLayoutSegmentation() )
     # set custom layout right now. this makes sure volumes are loaded into our custom Slice Views
     actionSegmentation3D.triggered()
 
