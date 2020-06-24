@@ -63,7 +63,7 @@ def createToggle3D():
     widget = mainWindow().findChild('QToolBar', 'ViewToolBar')
     action = widget.addAction("3D") 
     action.setToolTip('Toggle 3D Fullscreen')
-    action.connect('triggered()', lambda: toggle3DFullscreen() )
+    action.connect('triggered()', lambda: toggle3D() )
     # create shortcut: f 
     shortcutToggle3D = qt.QShortcut( mainWindow() )
     shortcutToggle3D.setKey( qt.QKeySequence('f') )
