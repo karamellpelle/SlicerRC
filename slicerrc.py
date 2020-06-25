@@ -225,7 +225,7 @@ def init():
     setApplicationLogoVisible( False )
     # no interpolation
     setVolumeInterpolation(False)
-    infoSlicerRC("Volume interpolation off. Enable with 'setVolumeInterpolation( True )")
+    infoSlicerRC("Volume interpolation off. Enable with 'setVolumeInterpolation( True )'")
     # default model format
     setModelStorageFormat( 'stl' )
     infoSlicerRC("Default model storage format: .stl")
