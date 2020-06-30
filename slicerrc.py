@@ -43,6 +43,22 @@ def setVolumeInterpolation(v):
     # observe new volumes 
     slicer.mrmlScene.AddObserver(slicer.mrmlScene.NodeAddedEvent, interpolator)
 
+################################################################################
+
+# set overwrite mode for all segmentation 
+# (it looks like a singleton so we can actually do it once (at some point)
+def setSegmentationOverwriteMode(v):
+    def setMode(v):
+      for node in slicer.util.getNodes('*').values():
+        if node.IsA('vtkMRMLSegmentEditorNode'):
+          node.SetOverwriteMode( v )
+    def callback(caller,event):
+      setMode(v) 
+    # set value for all current nodes:
+    setMode( v )
+    # observe new vtkMRMLSegmentEditorNode's
+    slicer.mrmlScene.AddObserver(slicer.mrmlScene.NodeAddedEvent, callback)
+
 
 
 ################################################################################
@@ -234,6 +250,9 @@ def init():
     infoSlicerRC("Custom layout created.")
     # create toggle 3D fullscreen 
     createToggle3D()
+    # allow overlap by default. this makes sure segments inside a Segmentation can overlap
+    setSegmentationOverwriteMode( 2 ) # magic number, see https://github.com/Slicer/Slicer/blob/e33439f950cca5a63976d249851eac6f52bc2530/Modules/Loadable/Segmentations/MRML/vtkMRMLSegmentEditorNode.h#L77-L87
+    infoSlicerRC("Segmentation overwrite mode: allow overlap") 
     # set default module: Data
     selectModule("Data")
     infoSlicerRC("Switched to module 'Data'")
