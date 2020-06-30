@@ -251,7 +251,7 @@ def init():
     # create toggle 3D fullscreen 
     createToggle3D()
     # allow overlap by default. this makes sure segments inside a Segmentation can overlap
-    setSegmentationOverwriteMode( 2 ) # magic number, see https://github.com/Slicer/Slicer/blob/e33439f950cca5a63976d249851eac6f52bc2530/Modules/Loadable/Segmentations/MRML/vtkMRMLSegmentEditorNode.h#L77-L87
+    setSegmentationOverwriteMode( slicer.vtkMRMLSegmentEditorNode.OverwriteNone )
     infoSlicerRC("Segmentation overwrite mode: allow overlap") 
     # set default module: Data
     selectModule("Data")
