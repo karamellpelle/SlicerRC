@@ -198,6 +198,21 @@ def createIconSegmentation():
     else:
         raise ValueError("Hex string does not define a valid image file for QPixmap")
 
+# show segmentation overlay on all views except "Segmentation-".
+def setSegmentationDisplay2D():
+    def callback(caller, event):
+      segviewnode = getNode( "Segmentation-" ) # this is a singleton (look at its XML-definition above)
+      viewnodes = getNodesByClass('vtkMRMLAbstractViewNode')
+      viewnodes.remove( segviewnode ) 
+      # set all ViewIDs except "Segmentation-"
+      for node in getNodesByClass('vtkMRMLSegmentationDisplayNode'):
+          # set all views except "Segmentation-", but only if the set of ViewIDs is undefined
+          # by only doing this for undefineds, the user can override
+          if not( node.GetViewNodeIDs() ):
+             node.SetViewNodeIDs( list( map(lambda node: node.GetID(), viewnodes) ) )
+    # observe new SegmentationDisplayNodes
+    slicer.mrmlScene.AddObserver( slicer.mrmlScene.NodeAddedEvent, callback )
+
 
 # create our custom layouts, add actions in layout menu, create shortcut
 def createCustomLayouts():
@@ -223,6 +238,8 @@ def createCustomLayouts():
     shortcutToggleSeg.connect( 'activated()', lambda: toggleLayoutSegmentation() )
     # set custom layout right now. this makes sure volumes are loaded into our custom Slice Views
     actionSegmentation3D.triggered()
+    # show segmentation overlay in all SliceViews except "Segmentation-"
+    setSegmentationDisplay2D()
 
 
 
