@@ -224,12 +224,12 @@ def linkSegmentationViews():
     # SliceCompositeNode: defining foreground/background/labelmap volume for a SliceNode
     # linking are done through SliceCompositeNode
     #
-    # create our own ViewGroup for our views:
-    slice0 = slicer.app.layoutManager().sliceWidget( "Segmentation" ).mrmlSliceNode()
-    slice1 = slicer.app.layoutManager().sliceWidget( "Segmentation-" ).mrmlSliceNode()
-    SEGMENTATION_VIEWGROUP = 73 # # # M A G I C # # #
-    slice0.SetViewGroup( SEGMENTATION_VIEWGROUP )
-    slice1.SetViewGroup( SEGMENTATION_VIEWGROUP )
+    # create our own ViewGroup for our views: NOTE: applies to crosshair too, hence commented out
+    #slice0 = slicer.app.layoutManager().sliceWidget( "Segmentation" ).mrmlSliceNode()
+    #slice1 = slicer.app.layoutManager().sliceWidget( "Segmentation-" ).mrmlSliceNode()
+    #SEGMENTATION_VIEWGROUP = 73 # # # M A G I C # # #
+    #slice0.SetViewGroup( SEGMENTATION_VIEWGROUP )
+    #slice1.SetViewGroup( SEGMENTATION_VIEWGROUP )
     # link our views
     composite0 = slicer.app.layoutManager().sliceWidget( "Segmentation" ).mrmlSliceCompositeNode() 
     composite1 = slicer.app.layoutManager().sliceWidget( "Segmentation-" ).mrmlSliceCompositeNode() 
