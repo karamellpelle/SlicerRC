@@ -213,6 +213,30 @@ def setSegmentationDisplay2D():
     # observe new SegmentationDisplayNodes
     slicer.mrmlScene.AddObserver( slicer.mrmlScene.NodeAddedEvent, callback )
 
+# make sure Segmentation and Segmentation- shows the same slice
+def linkSegmentationViews():
+    # linking SliceViews in Slicer are done by watching changes to any SliceNode or SliceCompositeNode and 
+    # broadcast changes to the other SliceNodes or SliceCompositeNodes, see 'vtkMRMLSliceLinkLogic.cxx'.
+    # what kind of changes for a source node to broadcast to other nodes can be controlled by the source node's InteractionFlags settings.
+    # for some changes the orientation of source and target must match, for example scrolling an Axial view will only change views having Axial orientation.
+    # however, broadcasts are only between SliceNodes of the same ViewGroup (and for SliceCompositeNode: using the corresponding SliceNode). 
+    # ViewGroup is a property of AbstractView.
+    # SliceCompositeNode: defining foreground/background/labelmap volume for a SliceNode
+    # linking are done through SliceCompositeNode
+    #
+    # create our own ViewGroup for our views:
+    slice0 = slicer.app.layoutManager().sliceWidget( "Segmentation" ).mrmlSliceNode()
+    slice1 = slicer.app.layoutManager().sliceWidget( "Segmentation-" ).mrmlSliceNode()
+    SEGMENTATION_VIEWGROUP = 73 # # # M A G I C # # #
+    slice0.SetViewGroup( SEGMENTATION_VIEWGROUP )
+    slice1.SetViewGroup( SEGMENTATION_VIEWGROUP )
+    # link our views
+    composite0 = slicer.app.layoutManager().sliceWidget( "Segmentation" ).mrmlSliceCompositeNode() 
+    composite1 = slicer.app.layoutManager().sliceWidget( "Segmentation-" ).mrmlSliceCompositeNode() 
+    composite0.SetLinkedControl( True )
+    composite1.SetLinkedControl( True )
+    composite0.SetHotLinkedControl( True )
+    composite1.SetHotLinkedControl( True )
 
 # create our custom layouts, add actions in layout menu, create shortcut
 def createCustomLayouts():
@@ -240,6 +264,8 @@ def createCustomLayouts():
     actionSegmentation3D.triggered()
     # show segmentation overlay in all SliceViews except "Segmentation-"
     setSegmentationDisplay2D()
+    # link Segmentation and Segmentation- so that they are synchronized
+    linkSegmentationViews()
 
 
 

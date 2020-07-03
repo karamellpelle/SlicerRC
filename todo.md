@@ -1,5 +1,4 @@
 # TODO
-* only link our two segmentation views
 * crosshair by default
 * hide uninteresting icons in toolbar
 * add my application `.ini`-file to this repository?
