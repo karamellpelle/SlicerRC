@@ -269,6 +269,16 @@ def createCustomLayouts():
 
 
 
+################################################################################
+# crosshair
+
+def setupCrosshair():
+    # show (all) crosshair by default
+    for cross in getNodesByClass( "vtkMRMLCrosshairNode" ):
+        cross.SetCrosshairMode( slicer.vtkMRMLCrosshairNode.ShowBasic ) 
+    # show intersection of other slices in a slice (useful in "Conventional" layout)
+    for comp in getNodesByClass("vtkMRMLSliceCompositeNode"):
+        comp.SetSliceIntersectionVisibility( True )
 
 ################################################################################
 # init
@@ -296,6 +306,8 @@ def init():
     # allow overlap by default. this makes sure segments inside a Segmentation can overlap
     setSegmentationOverwriteMode( slicer.vtkMRMLSegmentEditorNode.OverwriteNone )
     infoSlicerRC("Segmentation overwrite mode: allow overlap") 
+    # setup crosshair
+    setupCrosshair()
     # set default module: Data
     selectModule("Data")
     infoSlicerRC("Switched to module 'Data'")

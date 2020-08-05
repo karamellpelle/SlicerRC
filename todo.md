@@ -1,5 +1,4 @@
 # TODO
-* crosshair by default
 * hide uninteresting icons in toolbar
 * add my application `.ini`-file to this repository?
 * 3D off/on for `triggerLayoutSegmentation()/triggerLayoutSegmentation3D()`
