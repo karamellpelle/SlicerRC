@@ -164,15 +164,27 @@ actionSegmentation   = None
 
 # callback for action
 def triggerLayoutSegmentation():
-    # (layout changed by 'LayoutMenu' by using the QAction's QVariant)
-    # TODO: turn off 3D render
-    pass
+    # (layout is changed by 'LayoutMenu' by using the QAction's QVariant)
+    #
+    # turn off 3D render. we do this since real time 3D segmentation update takes long time
+    show3DButton = getModuleGui( 'SegmentEditor' ).findChild( 'ctkMenuButton', 'Show3DButton' )
+    show3DButton.setChecked( False )
 
 # callback for action
 def triggerLayoutSegmentation3D():
     # (layout is changed by 'LayoutMenu' by using the QAction's QVariant)
-    # TODO: turn on 3D render
-    pass
+    #
+    # turn on 3D render. 
+    # this will freeze the application for a shorter time, so we push and pop 
+    # a wait cursor and a message in the status bar during this 
+    slicer.app.setOverrideCursor( qt.QCursor( qt.Qt.WaitCursor ) )
+    statusbar = findChild( mainWindow(), "StatusBar" )
+    statusbar.showMessage( "Waiting for segmentation to update its 3D representation..." )
+    statusbar.repaint() 
+    show3DButton = getModuleGui( 'SegmentEditor' ).findChild( 'ctkMenuButton', 'Show3DButton' )
+    show3DButton.setChecked( True )
+    statusbar.clearMessage()
+    slicer.app.restoreOverrideCursor()
 
 # callback for shortcut
 def toggleLayoutSegmentation():
