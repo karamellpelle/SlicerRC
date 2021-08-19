@@ -22,7 +22,8 @@ def infoSlicerRC(s):
 # set the default model save format to .stl (defautl: .vtk)
 def setModelStorageFormat(ext):
     defaultModelStorageNode = slicer.vtkMRMLModelStorageNode()
-    defaultModelStorageNode.SetUseCompression(0)
+    #defaultModelStorageNode.SetUseCompression(0) 
+    defaultModelStorageNode.SetUseCompression( 1 )
     defaultModelStorageNode.SetDefaultWriteFileExtension( ext )
     slicer.mrmlScene.AddDefaultNode(defaultModelStorageNode)
 
@@ -167,7 +168,7 @@ def triggerLayoutSegmentation():
     # (layout is changed by 'LayoutMenu' by using the QAction's QVariant)
     #
     # turn off 3D render. we do this since real time 3D segmentation update takes long time
-    show3DButton = getModuleGui( 'SegmentEditor' ).findChild( 'ctkMenuButton', 'Show3DButton' )
+    show3DButton = getModuleWidget( 'SegmentEditor' ).editor.findChild( 'ctkMenuButton', 'Show3DButton' )
     show3DButton.setChecked( False )
 
 # callback for action
@@ -181,7 +182,7 @@ def triggerLayoutSegmentation3D():
     statusbar = findChild( mainWindow(), "StatusBar" )
     statusbar.showMessage( "Waiting for segmentation to update its 3D representation..." )
     statusbar.repaint() 
-    show3DButton = getModuleGui( 'SegmentEditor' ).findChild( 'ctkMenuButton', 'Show3DButton' )
+    show3DButton = getModuleWidget( 'SegmentEditor' ).editor.findChild( 'ctkMenuButton', 'Show3DButton' )
     show3DButton.setChecked( True )
     statusbar.clearMessage()
     slicer.app.restoreOverrideCursor()
