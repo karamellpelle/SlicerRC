@@ -324,6 +324,8 @@ def init():
     # set default module: Data
     selectModule("Data")
     infoSlicerRC("Switched to module 'Data'")
+    # show more python console completion items. useful when python console is placed at top
+    findChild( mainWindow(), "pythonConsole" ).maxVisibleCompleterItems = 128
 
 
 
