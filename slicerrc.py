@@ -293,10 +293,32 @@ def setupCrosshair():
     for comp in getNodesByClass("vtkMRMLSliceCompositeNode"):
         comp.SetSliceIntersectionVisibility( True )
 
+
+################################################################################
+# segment editor shortcuts
+
+def setupSegmentEditorShortcuts():
+    # find buttons
+    selectModule("SegmentEditor")
+    widget= mainWindow().findChild( 'QGroupBox', 'EffectsGroupBox' )
+    def addShortcut(name, keysequence ):
+        but = widget.findChild( 'QToolButton', name )
+        shortcut = qt.QShortcut( mainWindow() ) # ^TODO: use SegmentEditorWidget for focused shortcut, does thtat work?
+        shortcut.setKey( keysequence )
+        shortcut.connect( 'activated()', lambda: but.click() )
+    addShortcut( "NULL", qt.QKeySequence( 'Shift+F4' ) )
+    addShortcut( "Paint", qt.QKeySequence( 'Shift+F5' ) )
+    addShortcut( "Draw", qt.QKeySequence( 'Shift+F6' ) )
+    addShortcut( "Erase", qt.QKeySequence( 'Shift+F7' ) )
+    addShortcut( "Scissors", qt.QKeySequence( 'Shift+F8' ) )
+    # TODO: circle from mouse
+
 ################################################################################
 # init
 
 def init():
+    # show more python console completion items. useful when python console is placed at top
+    findChild( mainWindow(), "pythonConsole" ).maxVisibleCompleterItems = 128
     # no help text
     setModuleHelpSectionVisible( False )
     infoSlicerRC("Module help text hidden. Enable with 'setModuleHelpSectionVisible( True )'")
@@ -321,11 +343,12 @@ def init():
     infoSlicerRC("Segmentation overwrite mode: allow overlap") 
     # setup crosshair
     setupCrosshair()
+    # setup segment editor shortcuts
+    setupSegmentEditorShortcuts()
+    infoSlicerRC("Custom SegmentEditor shortcuts created.") 
     # set default module: Data
     selectModule("Data")
     infoSlicerRC("Switched to module 'Data'")
-    # show more python console completion items. useful when python console is placed at top
-    findChild( mainWindow(), "pythonConsole" ).maxVisibleCompleterItems = 128
 
 
 
