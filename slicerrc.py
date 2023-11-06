@@ -299,8 +299,8 @@ def setupCrosshair():
 
 def setupSegmentEditorShortcuts():
     # find buttons
-    selectModule("SegmentEditor")
-    widget= mainWindow().findChild( 'QGroupBox', 'EffectsGroupBox' )
+    selectModule("SegmentEditor") # FIXME: add shortcuts when 'slicer.qMRMLSegmentEditorWidget' is created
+    widget= mainWindow().findChild( 'QWidget', 'EffectsGroupBox' )
     def addShortcut(name, keysequence ):
         but = widget.findChild( 'QToolButton', name )
         shortcut = qt.QShortcut( mainWindow() ) # ^TODO: use SegmentEditorWidget for focused shortcut, does thtat work?
@@ -344,7 +344,7 @@ def init():
     # setup crosshair
     setupCrosshair()
     # setup segment editor shortcuts
-    setupSegmentEditorShortcuts()
+    setupSegmentEditorShortcuts() # FIXME: remove created Node from 'selectModule("SegmentEditor")'
     infoSlicerRC("Custom SegmentEditor shortcuts created.") 
     # set default module: Data
     selectModule("Data")
