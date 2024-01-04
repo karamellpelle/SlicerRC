@@ -335,8 +335,7 @@ def updateBrushSize(direction):
 
 def setupSegmentEditorShortcuts():
     # find buttons
-    selectModule("SegmentEditor") # FIXME: add shortcuts when 'slicer.qMRMLSegmentEditorWidget' is created
-    widget= mainWindow().findChild( 'QWidget', 'EffectsGroupBox' )
+    widget = slicer.modules.SegmentEditorWidget.editor.findChild("QWidget", "EffectsGroupBox")
     def addEffectShortcut(name, keysequence ):
         but = widget.findChild( 'QToolButton', name )
         shortcut = qt.QShortcut( mainWindow() ) # ^TODO: use SegmentEditorWidget for focused shortcut, does thtat work?
