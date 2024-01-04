@@ -297,21 +297,61 @@ def setupCrosshair():
 ################################################################################
 # segment editor shortcuts
 
+def updateBrushSize(direction):
+    segnode = getNode( "SegmentEditor" )
+    isAbsolute = int( segnode.GetAttribute( "BrushDiameterIsRelative" ) ) == 0
+    value = float( segnode.GetAttribute( "BrushAbsoluteDiameter" ) ) if isAbsolute else 1.0
+    absMap = [ 0.1, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0, 3.0, 5.0, 8.0, 10.0, 20.0, 30, 40.0 ]
+    v0 = value
+    v1 = value
+    v2 = value
+    i = 0
+    n = len( absMap )
+    # find triple (v0, v1, v2) for 'value'
+    while True:
+        if i != n:
+            x = absMap[ i ]
+            if x <= value: 
+                v0 = v1
+                v1 = x
+            else:
+                v2  = x
+                break
+        else:
+            v2 = v1  
+            break
+        i = i + 1
+    # set new value
+    value1 = v1
+    if direction < 0:
+        value1 = v0
+    if 0 < direction:
+        value1 = v2
+    segnode.SetAttribute( "BrushDiameterIsRelative", "0" ) 
+    segnode.SetAttribute( "BrushAbsoluteDiameter", str( value1 ) )
+    # show info
+    findChild( mainWindow(), "StatusBar" ).showMessage( "Brush diameter = {:.2f} mm".format( value1 ), 500 )
+
+
 def setupSegmentEditorShortcuts():
     # find buttons
     selectModule("SegmentEditor") # FIXME: add shortcuts when 'slicer.qMRMLSegmentEditorWidget' is created
     widget= mainWindow().findChild( 'QWidget', 'EffectsGroupBox' )
-    def addShortcut(name, keysequence ):
+    def addEffectShortcut(name, keysequence ):
         but = widget.findChild( 'QToolButton', name )
         shortcut = qt.QShortcut( mainWindow() ) # ^TODO: use SegmentEditorWidget for focused shortcut, does thtat work?
         shortcut.setKey( keysequence )
         shortcut.connect( 'activated()', lambda: but.click() )
-    addShortcut( "NULL", qt.QKeySequence( 'Shift+F4' ) )
-    addShortcut( "Paint", qt.QKeySequence( 'Shift+F5' ) )
-    addShortcut( "Draw", qt.QKeySequence( 'Shift+F6' ) )
-    addShortcut( "Erase", qt.QKeySequence( 'Shift+F7' ) )
-    addShortcut( "Scissors", qt.QKeySequence( 'Shift+F8' ) )
-    # TODO: circle from mouse
+    addEffectShortcut( "NULL", qt.QKeySequence( 'Shift+F4' ) )
+    addEffectShortcut( "Paint", qt.QKeySequence( 'Shift+F5' ) )
+    addEffectShortcut( "Draw", qt.QKeySequence( 'Shift+F6' ) )
+    addEffectShortcut( "Erase", qt.QKeySequence( 'Shift+F7' ) )
+    addEffectShortcut( "Scissors", qt.QKeySequence( 'Shift+F8' ) )
+    # add shortcut for brush size
+    qt.QShortcut( qt.QKeySequence( "Shift+F9"), mainWindow() ).connect( 'activated()', lambda: updateBrushSize( -1 ) )
+    qt.QShortcut( qt.QKeySequence( "Shift+F10"), mainWindow() ).connect( 'activated()', lambda: updateBrushSize( 1 ) )
+
+
 
 ################################################################################
 # init
