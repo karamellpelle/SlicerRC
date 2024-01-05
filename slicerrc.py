@@ -290,8 +290,8 @@ def setupCrosshair():
     for cross in getNodesByClass( "vtkMRMLCrosshairNode" ):
         cross.SetCrosshairMode( slicer.vtkMRMLCrosshairNode.ShowBasic ) 
     # show intersection of other slices in a slice (useful in "Conventional" layout)
-    for comp in getNodesByClass("vtkMRMLSliceCompositeNode"):
-        comp.SetSliceIntersectionVisibility( True )
+    for node in slicer.util.getNodesByClass("vtkMRMLSliceDisplayNode"):
+      node.SetIntersectingSlicesVisibility(1)
 
 
 ################################################################################
